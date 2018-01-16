@@ -1,0 +1,103 @@
+
+<div class="container">
+<div id="content">
+    <!-- Breadcrumbs -->
+    <div class="block block-breadcrumbs clearfix">
+        <ul>
+            {% for breadcrumb in breadcrumbs %} {% if loop.last %}
+            <li>
+                <li>{{ breadcrumb['text'] }}</li>
+            </li>
+            {% else %}
+            <li class="home">
+                <a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a>
+                <span></span>
+            </li>
+            {% endif %} {% endfor %}
+        </ul>
+    </div>
+    <!-- Breadcrumbs End -->
+
+
+            {% if success %}
+            <br>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ success }}
+            </div>
+            {% endif %}
+            
+            {% if error_warning %}
+            <br>
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ error_warning }}
+            </div>
+            {% endif %}
+
+
+
+    <div class="main-page">
+            <h1 class="page-title">{{ lang('SignIn_Desc') }}</h1>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-sm-6">
+                    <div class="box-border">
+                        <h4>{{ lang('SignUp_Title') }}</h4>
+                        <small>{{ lang('SignUp_Desc') }}</small>
+                        <p>
+                            <label>{{ lang('Title_Email') }}</label>
+                            <input type="text" placeholder="{{ lang('Input_Email') }}">
+                        </p>
+                        <p>
+                            <button class="button" onclick="location.href='{{ link('account/register', '', 'SSL') }}'"><i class="fa fa-user"></i> {{ lang('SignUp_Register') }}</button>
+                        </p>
+                        <br>
+                        {% if d_social_login_enabled %}{{ d_social_login }}{% endif %}
+                    </div>
+                    
+                    </div>
+                    <div class="col-sm-6">
+                        <form action="{{ link('account/login', '', 'SSL') }}" method="post" enctype="multipart/form-data" id="login">
+                        <div class="box-border">
+                            <h4>{{ lang('SignIn_Title') }}</h4>
+                            <p>
+                                <label>{{ lang('Title_Email') }}</label>
+                                <input type="text" name="email"  placeholder="{{ lang('Input_Email') }}">
+                            </p>
+                            <p>
+                                <label>{{ lang('entry_password') }}</label>
+                                <input type="password" name="password" placeholder="{{ lang('Input_Password') }}">
+                            </p>
+                            <p>
+                                <a href="{{ link('account/forgotten', '', 'SSL') }}">{{ lang('text_forgotten') }}</a>
+                            </p>
+                            <p>
+                                <button type="submit" class="button"><i class="fa fa-lock"></i> {{ lang('button_login') }}</button>
+                            </p>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <br><br><br>
+    </div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $('#login input').keydown(function(e) {
+	    if (e.keyCode == 13) {
+		    $('#login').submit();
+	    }
+    });
+</script>

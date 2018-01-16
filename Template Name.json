@@ -1,0 +1,210 @@
+{
+    "CodeName": "",
+    "NameEN": "",
+    "DescEN": "N/A",
+    "ImageEN": "",
+    "DemourlEN": "N/A",
+    "NameAR": "",
+    "DescAR": "N/A",
+    "ImageAR": "",
+    "DemourlAR": "N/A",
+    "Pages": [
+        {
+            "CodeName": "templatesettings",
+            "Route": "",
+            "NameEN": "Settings",
+            "DescEN": "N/A",
+            "NameAR": "Settings",
+            "DescAR": "N/A",
+            "Special": 1,
+            "Regions": [
+                {
+                    "CodeName": "styling",
+                    "RowOrder": "-1",
+                    "ColOrder": "-1",
+                    "ColWidth": "-1",
+                    "NameEN": "Styling",
+                    "DescEN": "",
+                    "NameAR": "Styling",
+                    "DescAR": "",
+                    "Sections": [
+                        {
+                            "CodeName": "colors",
+                            "Name": "Colors",
+                            "Type": "live",
+                            "State": "enabled",
+                            "IsCollection": 1,
+                            "NameEN": "Store Colors",
+                            "DescEN": "",
+                            "ImageEN": "N/A",
+                            "ThumbnailEN": "N/A",
+                            "NameAR": "الوان المتجر",
+                            "DescAR": "",
+                            "ImageAR": "N/A",
+                            "ThumbnailAR": "N/A",
+                            "Collections": [
+                                {
+                                    "Name": "Main Color",
+                                    "Thumbnail": "N/A",
+                                    "IsDefault": "0",
+                                    "Fields": [
+                                        {
+                                            "CodeName": "MainColor",
+                                            "Type": "colorpicker",
+                                            "LookUpKey": "",
+                                            "IsMultiLang": "0",
+                                            "NameEN": "Main Color",
+                                            "DescEN": "",
+                                            "NameAR": "اللون الاساسى",
+                                            "DescAR": "",
+                                            "ValueEN": "#FC0027",
+                                            "ValueAR": "#FC0027"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "CodeName": "fonts",
+                            "Name": "Fonts",
+                            "Type": "live",
+                            "State": "enabled",
+                            "IsCollection": 1,
+                            "NameEN": "Fonts",
+                            "DescEN": "Fonts",
+                            "ImageEN": "N/A",
+                            "ThumbnailEN": "N/A",
+                            "NameAR": "Fonts",
+                            "DescAR": "Fonts",
+                            "ImageAR": "N/A",
+                            "ThumbnailAR": "N/A",
+                            "Collections": [
+                                {
+                                    "Name": "Store fonts",
+                                    "Thumbnail": "N/A",
+                                    "IsDefault": "0",
+                                    "Fields": [
+                                        {
+                                            "CodeName": "ArabicFonts",
+                                            "Type": "sselect-lookup",
+                                            "LookUpKey": "ArabicFonts",
+                                            "IsMultiLang": "0",
+                                            "NameEN": "Arabic Font",
+                                            "DescEN": "",
+                                            "NameAR": " الخطوط العربية ",
+                                            "DescAR": "",
+                                            "ValueEN": "Cairo",
+                                            "ValueAR": "Cairo"
+                                        },
+                                        {
+                                            "CodeName": "EnglishFonts",
+                                            "Type": "sselect-lookup",
+                                            "LookUpKey": "EnglishFonts",
+                                            "IsMultiLang": "0",
+                                            "NameEN": "English  Font",
+                                            "DescEN": "",
+                                            "NameAR": "الخطوط الانجليزية",
+                                            "DescAR": "",
+                                            "ValueEN": "Open Sans",
+                                            "ValueAR": "Open Sans"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "CodeName": "home",
+            "Route": "",
+            "NameEN": "Home Page",
+            "DescEN": "N/A",
+            "NameAR": "الصفحة الرئيسية",
+            "DescAR": "N/A",
+            "Special": 0,
+            "Regions": [
+                {
+                    "CodeName": "header",
+                    "RowOrder": "-1",
+                    "ColOrder": "-1",
+                    "ColWidth": "-1",
+                    "NameEN": "Header",
+                    "NameAR": "Header",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": []
+                },
+                {
+                    "CodeName": "MainContent",
+                    "RowOrder": "1",
+                    "ColOrder": "1",
+                    "ColWidth": "12",
+                    "NameEN": "Main Content",
+                    "NameAR": "Main Content",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": [
+                        {}
+                    ]
+                },
+                {
+                    "CodeName": "footer",
+                    "RowOrder": "-1",
+                    "ColOrder": "-1",
+                    "ColWidth": "-1",
+                    "NameEN": "Footer",
+                    "NameAR": "Footer",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": []
+                }
+            ]
+        },
+        {
+            "CodeName": "general",
+            "Route": "",
+            "NameEN": "General Page",
+            "DescEN": "N/A",
+            "NameAR": "الصفحة العامة",
+            "DescAR": "N/A",
+            "Special": 0,
+            "Regions": [
+                {
+                    "CodeName": "MainContent",
+                    "RowOrder": "1",
+                    "ColOrder": "2",
+                    "ColWidth": "9",
+                    "NameEN": "Main Content",
+                    "NameAR": "Main Content",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": []
+                },
+                {
+                    "CodeName": "Sidebar",
+                    "RowOrder": "1",
+                    "ColOrder": "1",
+                    "ColWidth": "3",
+                    "NameEN": "Sidebar",
+                    "NameAR": "Sidebar",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": []
+                },
+                {
+                    "CodeName": "BottomContent",
+                    "RowOrder": "2",
+                    "ColOrder": "1",
+                    "ColWidth": "12",
+                    "NameEN": "Bottom Content",
+                    "NameAR": "Bottom Content",
+                    "DescEN": "",
+                    "DescAR": "",
+                    "Sections": []
+                }
+            ]
+        }
+    ]
+}

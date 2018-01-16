@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="{{ lang('code') }}" class="{{ lang('direction') == 'rtl' ? 'cms-rtl' : '' }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Basic Tags -->
+    <base href="{{ base_url }}" /> 
+
+    {% if document_description != '' %}
+        <meta name="description" content="{{ document_description }}" />
+    {% endif %}
+    
+    {% if document_keywords != '' %}
+        <meta name="keywords" content="{{ document_keywords }}" />
+    {% endif %}
+    
+    {% if store_icon != '' %}
+        <link href="{{ store_icon }}" rel="icon" />
+    {% endif %}
+
+
+    <title>{{ document_title }}</title>
+
+    {% if route == "product/product" %}
+        <meta property="og:image" content="{{ ChildData.thumb }}" />
+        <meta property="og:url"content="{{ link('product/product', 'product_id=' ~ ChildData.product_id) }}" />
+        <meta property="og:title" content="{{ ChildData.product_name }}" />
+        <meta property="og:description" content="{{ ChildData.short_description|e }}" />
+    {% endif %}
+
+    <!-- Documets Links -->
+    {% for link in document_links %}
+    <link href="{{ link.href }}" rel="{{ link.rel }}" />
+    {% endfor %}
+
+    <!-- CSS Files -->
+    {% for style in document_styles %}
+        <link rel="{{ style.rel }}" type="text/css" href="{{ style.href }}" media="{{ style.media }}" />
+    {% endfor %}
+
+    <link rel="stylesheet" type="text/css" href="index.php?route=common/style{{ isdraft == 1 ? '&isdraft=1' : '' }}">
+    <link rel="stylesheet" type="text/css" href="{{ csslink('css/jquery-ui.min.css') }}" />
+
+    <!-- JQuery Min Files -->
+    <script type="text/javascript" src="{{ jslink('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ jslink('js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ jslink('js/common.js') }}"></script>
+
+    {% for script in document_scripts %}
+        <script type="text/javascript" src="{{ script }}"></script>
+    {% endfor %}
+
+    <!-- Google Analytics -->
+    {{ google_analytics }}
+</head>
+
+<body>
+
+    {% if is_home_page %}
+        {{ regions_data.MainContent.content }}
+    {% elseif not is_home_page and route starts with 'product/' %}
+        {{ page_content }}
+        {{ regions_data.Sidebar.content }}
+        {{ regions_data.BottomContent.content }}
+    {% else %}
+        {{ page_content }}
+    {% endif %}
+
+</body>
+</html>

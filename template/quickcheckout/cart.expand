@@ -1,0 +1,123 @@
+<!-- Quick Checkout v4.2 by Dreamvention.com quickcheckout/cart.tpl -->
+<style>
+.qc.qc-popup {
+  width: {{ settings['general']['cart_image_size']['width'] }}px;
+  height: {{ settings['general']['cart_image_size']['height'] }}px;
+}
+</style>
+<div id="cart_wrap">
+  <div class="box box-border">
+    <div class="box-heading {% if not data['display'] %}qc-hide{% endif %}">
+      <span class="wrap"><span class="qc-icon-cart"></span></span> 
+      <span class="text">{{ data['title'] }}</span>
+    </div>
+  
+  <div class="qc-checkout-product {% if not data['display'] %}qc-hide{% endif %}" >
+    {% if error %}
+      {% for error_message in error %}
+        <div class="error">{{ error_message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <table class="qc-table qc-cart">
+      <thead>
+        <tr>
+          <td class="qc-image {% if not data['columns']['image'] %}qc-hide{% endif %}">{{ lang('column_image') }}:</td>
+          <td class="qc-name {% if not data['columns']['name'] %}qc-hide{% endif %}">{{ lang('column_name') }}:</td>
+          <td class="qc-model {% if not data['columns']['model'] %}qc-hide{% endif %}">{{ lang('column_model') }}:</td>
+          <td class="qc-quantity {% if not data['columns']['quantity'] %}qc-hide{% endif %}">{{ lang('column_quantity') }}:</td>
+          <td class="qc-price  {% if not data['columns']['price'] or (config('config_customer_price') and not is_logged) %}qc-hide{% endif %}">{{ lang('column_price') }}:</td>
+          <td class="qc-total {% if not data['columns']['total'] or (config('config_customer_price') and not is_logged) %}qc-hide{% endif %}">{{ lang('column_total') }}:</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr {% if not product['stock'] %}class="stock"{% endif %}>
+          <td class="qc-image {% if not data['columns']['image'] %}qc-hide{% endif %}">
+            <a rel="qc-popup" data-help='<img src="{{ product['image'] }}" />'  href="{{ product['href'] }}">
+              <img src="{{ product['thumb'] }}" />
+            </a>
+            <i rel="tooltip" data-help="{{ field['tooltip'] }}"></i>
+          </td>
+          <td class="qc-name  {% if not data['columns']['name'] %}qc-hide{% endif %}">
+            <a href="{{ product['href'] }}" {% if not data['columns']['image'] %}rel="popup" data-help='<img src="{{ product['image'] }}"/>'{% endif %}>
+              
+              {{ product['name'] }} {% if not product['stock'] %}<span class="out-of-stock">***</span>{% endif %}
+            </a>
+            {% for option in product['option'] %}
+              <div> &nbsp;<small> - {{ option['name'] }}: {{ option['value'] }}</small> </div>
+            {% endfor %}
+            <div class="qc-name-model {% if not data['columns']['model'] %}qc-hide{% endif %}"><span class="title">{{ column_model }}:</span> <span class="text">{{ product['model'] }}</span></div>
+            <div class="qc-name-price {% if not data['columns']['price'] or (config('config_customer_price') and not is_logged) %}qc-hide{% endif %}"><span class="title">{{ column_price }}:</span> <span class="text">{{ product['price'] }}</span></div>
+          </td>
+          <td class="qc-model {% if not data['columns']['model'] %}qc-hide{% endif %}">{{ product['model'] }}</td>
+          <td class="qc-quantity  {% if not data['columns']['quantity'] %}qc-hide{% endif %}">
+            <span class="qc-icon-minus-circle decrease" data-product="{{ product['product_id'] }}"></span>
+            <input type="text" value="{{ product['quantity'] }}" class="qc-product-qantity" name="cart[{{ product['product_id'] }}]"  data-refresh="2"/>
+            <span class="qc-icon-plus-circle increase" data-product="{{ product['product_id'] }}"></span></td>
+          <td class="qc-price {% if (not data['columns']['price'] or (config('config_customer_price') and not is_logged)) %}qc-hide{% endif %} ">{{ product['price'] }}</td>
+          <td class="qc-total {% if (not data['columns']['total'] or (config('config_customer_price') and not is_logged)) %}qc-hide{% endif %} ">{{ product['total'] }}</td>
+        </tr>
+        {% endfor %}
+        {% for itemvoucher in vouchers %}
+        <tr>
+          <td class="qc-name {% if not data['columns']['image'] %}qc-hide{% endif %}"></td>
+          <td class="qc-name {% if not data['columns']['name'] %}qc-hide{% endif %} ">{{ itemvoucher['description'] }}</td>
+          <td class="qc-model {% if not data['columns']['model'] %}qc-hide{% endif %} "></td>
+          <td class="qc-quantity {% if not data['columns']['quantity'] %}qc-hide{% endif %} ">1</td>
+          <td class="qc-price {% if (not data['columns']['price'] or (config('config_customer_price') and not is_logged)) %}qc-hide{% endif %} ">{{ itemvoucher['amount'] }}</td>
+          <td class="qc-total {% if (not data['columns']['total'] or (config('config_customer_price') and not is_logged)) %}qc-hide{% endif %} ">{{ itemvoucher['amount'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="qc-table qc-options">
+        <div class="qc-row qc-coupon {% if not coupon_status or not data['option']['coupon']['display'] %}qc-hide{% endif %}">
+          <div class="qc-col qc-text" >{{ lang('text_use_coupon') }}
+          </div><div class="qc-col qc-total"><input type="text" value="{{ coupon ? coupon : '' }}" name="coupon" id="coupon" placeholder="{{ lang('text_use_coupon') }}" />
+          <span class="qc-icon-check" id="confirm_coupon"></span></div>
+        </div>
+        <div class="qc-row qc-voucher {% if not voucher_status or not data['option']['voucher']['display'] %}qc-hide{% endif %}">
+          <div class="qc-col qc-text" >{{ lang('text_use_voucher') }}
+          </div><div class="qc-col qc-total"><input type="text" value="{{ voucher ? voucher : '' }}" name="voucher" id="voucher" placeholder="{{ lang('text_use_voucher') }}"/>
+            <span class="qc-icon-check" id="confirm_voucher"></span></div>
+        </div>
+        <div class="qc-row qc-reward {% if not reward_status or not data['option']['reward']['display'] %}hide{% endif %}">
+          <div class="qc-col qc-text" >{{ lang('text_use_reward') }}
+          </div><div class="qc-col qc-total "><input type="text" value="{{ reward ? reward : ''}}" name="reward" id="reward" placeholder="{{ lang('text_use_reward') }}"/>
+            <span class="qc-icon-check" id="confirm_reward"></span></div>
+        </div>
+    </div>
+    <div class="qc-table qc-summary {% if config('config_customer_price') and not is_logged %}qc-hide{% endif %}">
+        {% for total in totals %}
+        <div class="qc-row qc-totals">
+          <div class="qc-col qc-text" >{{ total['title'] }}
+          </div><div class="qc-col qc-total">{{ total['text'] }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+  </div>
+  <div class="clear"></div>
+  </div>
+</div>
+<script><!--
+$(function(){
+	if($.isFunction($.fn.uniform)){
+		$(" .styled, input:radio.styled").uniform().removeClass('styled');
+	}
+	if($.isFunction($.fn.colorbox)){
+		$('.colorbox').colorbox({
+			width: 640,
+			height: 480
+		});
+	}
+	if($.isFunction($.fn.fancybox)){
+		$('.fancybox').fancybox({
+			width: 640,
+			height: 480
+		});
+	}
+});
+//--></script>

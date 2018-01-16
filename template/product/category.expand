@@ -1,0 +1,441 @@
+{{ script('js/jquery/jquery.total-storage.min.js') }}
+{% set mfSettings = config(mega_filter_settings) %}
+{% if mfSettings %}
+{% if mfilter_json %}
+<div id="mfilter-json" style="display:none">{{ mfilter_json|base64_encode }}</div>
+{% endif %}
+<div id="mfilter-content-container">
+{% endif %}
+
+<div class="container">
+
+    <!-- Breadcrumbs -->
+    <div class="block block-breadcrumbs clearfix">
+        <ul>
+            {% for breadcrumb in breadcrumbs %} {% if loop.last %}
+            <li>
+                <li>{{ breadcrumb['text'] }}</li>
+            </li>
+            {% else %}
+            <li class="home">
+                <a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a>
+                <span></span>
+            </li>
+            {% endif %} {% endfor %}
+        </ul>
+    </div>
+    <!-- Breadcrumbs End -->
+
+    <div id="notification"></div>
+
+    <div class="st-default main-wrapper clearfix">
+        
+        {% if image %}
+            <img src="{{ image(image, 870, 870) }}" alt="{{ category_name }}">
+        {% endif %}
+
+        <h3 class="page-title">
+            <span>{{ category_name }}</span>
+        </h3>
+        {% if description %}
+        <p>{{ description|slice(0, 599)|striptags ~ '....' }}</p>
+        {% endif %}
+            
+        <div class="block block-filter-top">
+            <div class="row">
+                <div class="col-sm-9 col-md-10 first">
+                    <div class="filter-value">
+                        <ul class="list-category" style="margin-left: 20px; margin-bottom:50px;">       
+                            {% if categories %}
+                                {% for category in categories %}                                             
+                                    <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sortPagiBar">
+            <ul class="display-product-option">
+                <li class="view-as-grid selected" onclick="$('.products-grid').show(); $('.products-list').hide(); $('.view-as-list').removeClass('selected'); $('.view-as-grid').addClass('selected'); return false;">
+                    <span>grid</span>
+                </li>
+                <li class="view-as-list" onclick="$('.products-list').show(); $('.products-grid').hide(); $('.view-as-grid').removeClass('selected'); $('.view-as-list').addClass('selected'); return false;">
+                    <span>list</span>
+                </li>
+            </ul>
+
+            <div class="sortPagiBar-inner">
+                <nav>
+                  <ul class="pagination">
+                    {{ pagination }}
+                  </ul>
+                </nav>
+                <div class="show-product-item">
+                    <select class="limiter-options" onchange="location = this.value;">
+                        {% for limitst in limits %}
+                            {% if limitst.value == limit %}
+                                <option value="{{ limitst.href }}" selected="selected">{{ limitst.text }}</option>
+                            {% else %}
+                                <option value="{{ limitst.href }}">{{ limitst.text }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="sort-product">
+                    <select onchange="location = this.value;" class="sorter-options">
+                        {% for sortst in sorts %}
+                            {% if sortst.value == sort ~ '-' ~ order %}
+                                <option value="{{ sortst.href }}" selected="selected">{{ sortst.text }}</option>
+                            {% else %}
+                                <option value="{{ sortst.href }}">{{ sortst.text }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="products-grid category-products">
+            <ul class="products row">
+                {% for product in products %}
+                <li class="product col-xs-12 col-sm-4 col-md-3">
+                    <div class="product-container">
+                        <div class="inner">
+                            <div class="product-left">
+                                <div class="product-thumb">
+                                    <a class="product-img" href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}"></a>
+                                    <a title="Quick View" href="{{ product.href }}" class="btn-quick-view  fancybox.iframe">Quick View</a>
+                                </div>
+                            </div>
+                            <div class="product-right">
+                                <div class="product-name">
+                                    {% if config('show_brands') %}
+                                    <a href="{{ product.manufacturer_href }}">{{ product.manufacturer }}</a><br>
+                                    {% endif %}
+                                    <a href="{{ product.href }}">{{ product.name }}</a>
+                                </div>
+                                <div class="price-box">
+                                    {% if product.special > 0 %}
+                                    <span class="product-price">{{ product.special }}</span>
+                                    <span class="product-price-old">{{ product.price }}</span>
+                                    {% else %}
+                                    <span class="product-price">{{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="product-star">
+                                        {% if product.rating == 0 %}
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        {% elseif product.rating == 1 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        {% elseif product.rating == 2 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        {% elseif product.rating == 3 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        {% elseif product.rating == 4 %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        {% else %}
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        {% endif %}
+                                </div>
+                                <div class="product-button">
+                                    <a class="btn-add-wishlist" title="Add to Wishlist" href="#" onclick="addToWishList({{ product.product_id }}); return false;">Add Wishlist</a>
+                                    <a class="btn-add-comparre" title="Add to Compare" href="#" onclick="addToCompare({{ product.product_id }}, 1); return false;">Add Compare</a>
+                                    <a class="button-radius btn-add-cart" title="Add to Cart" href="#" onclick="addToCart({{ product.product_id }}, 1); return false;">Buy<span class="icon"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="products-list category-products" style="display:none;">
+			<ul class="products list row">
+                {% for product in products %}
+				<li class="product col-xs-12 col-sm-6">
+						<div class="product-container">
+							<div class="inner row">
+								<div class="product-left col-sm-6">
+									<div class="product-thumb">
+										<a class="product-img" href="{{ product.href }}"><img src="{{ product.thumb }}" alt="Product"></a>
+										<a title="Quick View" href="{{ product.href }}" class="btn-quick-view  fancybox.iframe">Quick View</a>
+									</div>
+								</div>
+								<div class="product-right col-sm-6">
+									<div class="product-name">
+                                        {% if config('show_brands') %}
+                                        <a href="{{ product.manufacturer_href }}">{{ product.manufacturer }}</a><br>
+                                        {% endif %}
+										<a href="{{ product.href }}">{{ product.name }}</a>
+									</div>
+									<div class="price-box">
+                                            {% if product.special > 0 %}
+                                            <span class="product-price">{{ product.special }}</span>
+                                            <span class="product-price-old">{{ product.price }}</span>
+                                            {% else %}
+                                            <span class="product-price">{{ product.price }}</span>
+                                            {% endif %}
+									</div>
+									<div class="product-star">
+                                            {% if product.rating == 0 %}
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            {% elseif product.rating == 1 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            {% elseif product.rating == 2 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            {% elseif product.rating == 3 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            {% elseif product.rating == 4 %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            {% else %}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            {% endif %}
+	                                </div>
+	                                <div class="desc">{{ product.description }}</div>
+	                                <div class="product-button">
+	                                	<a class="btn-add-wishlist" title="Add to Wishlist" href="#" onclick="addToWishList({{ product.product_id }}); return false;">Add Wishlist</a>
+	                                	<a class="btn-add-comparre" title="Add to Compare" href="#" onclick="addToCompare({{ product.product_id }}, 1); return false;">Add Compare</a>
+	                                	<a class="button-radius btn-add-cart" title="Add to Cart" href="#" onclick="addToCart({{ product.product_id }}, 1); return false;">Buy<span class="icon"></span></a>
+	                                </div>
+								</div>
+							</div>
+						</div>
+				</li>
+                {% endfor %}
+			</ul>
+		</div>
+
+        <div class="sortPagiBar">
+            <ul class="display-product-option">
+                <li class="view-as-grid selected" onclick="$('.products-grid').show(); $('.products-list').hide(); $('.view-as-list').removeClass('selected'); $('.view-as-grid').addClass('selected'); return false;">
+                    <span>grid</span>
+                </li>
+                <li class="view-as-list" onclick="$('.products-list').show(); $('.products-grid').hide(); $('.view-as-grid').removeClass('selected'); $('.view-as-list').addClass('selected'); return false;">
+                    <span>list</span>
+                </li>
+            </ul>
+    
+            <div class="sortPagiBar-inner">
+                    <nav>
+                      <ul class="pagination">
+                        {{ pagination }}
+                      </ul>
+                    </nav>
+                    <div class="show-product-item">
+                        <select class="limiter-options" onchange="location = this.value;">
+                            {% for limitst in limits %}
+                                {% if limitst.value == limit %}
+                                    <option value="{{ limitst.href }}" selected="selected">{{ limitst.text }}</option>
+                                {% else %}
+                                    <option value="{{ limitst.href }}">{{ limitst.text }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="sort-product">
+                        <select onchange="location = this.value;" class="sorter-options">
+                            {% for sortst in sorts %}
+                                {% if sortst.value == sort ~ '-' ~ order %}
+                                    <option value="{{ sortst.href }}" selected="selected">{{ sortst.text }}</option>
+                                {% else %}
+                                    <option value="{{ sortst.href }}">{{ sortst.text }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Review Script -->
+<script type="text/javascript">
+    $(document).on('click', '#review .pagination a', function () {
+        $('#review').fadeOut('slow');
+
+        $('#review').load(this.href);
+
+        $('#review').fadeIn('slow');
+
+        return false;
+    });
+
+    $('#review').load('index.php?route=product/product/review&product_id={{ product_id }}');
+
+    $('#button-review').bind('click', function () {
+        $.ajax({
+            url: 'index.php?route=product/product/write&product_id={{ product_id }}',
+            type: 'post',
+            dataType: 'json',
+            data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' +
+                encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' +
+                encodeURIComponent($('input[name=\'rating\']:checked').val() ? $(
+                    'input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($(
+                    'input[name=\'captcha\']').val()),
+            beforeSend: function () {
+                $('.success, .warning').remove();
+                $('#button-review').attr('disabled', true);
+                $('#review-title').after('<div class="attention"><img src="" alt="" /> {{ lang('
+                    text_wait ') }}</div>');
+            },
+            complete: function () {
+                $('#button-review').attr('disabled', false);
+                $('.attention').remove();
+            },
+            success: function (data) {
+                if (data['error']) {
+                    $('#review-title').after('<div class="warning">' + data['error'] + '</div>');
+                }
+
+                if (data['success']) {
+                    $('#review-title').after('<div class="success">' + data['success'] + '</div>');
+
+                    $('input[name=\'name\']').val('');
+                    $('textarea[name=\'text\']').val('');
+                    $('input[name=\'rating\']:checked').attr('checked', '');
+                    $('input[name=\'captcha\']').val('');
+                }
+            }
+        });
+    });
+</script>
+
+<!-- Add to cart script -->
+<script type="text/javascript">
+    $('#button-cart').bind('click', function () {
+        $.ajax({
+            url: 'index.php?route=checkout/cart/add',
+            type: 'post',
+            data: $(
+                '.product-add-form input[type=\'hidden\'], .product-add-form input[type=\'radio\']:checked, .product-add-form input[type=\'checkbox\']:checked, .product-add-form select, .product-add-form textarea'
+            ),
+            dataType: 'json',
+            success: function (json) {
+                if(json['success'] == 'affiliate_link') {
+                    document.location = json['affiliate_link'];
+                    return;
+                }
+
+                $(
+                    '.alert-success, .alert-warning, .alert-attention, .alert-information, .alert-error'
+                ).remove();
+
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+
+                if (json['success']) {
+                    $('#notification').html(
+                        '<br><div class="alert alert-success alert-dismissible" style="display: none;" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                        json[
+                            'success'] + '</div>');
+
+                    $('.alert-success').fadeIn('slow');
+
+                    $('.block-minicart .counter-number').html(json['product_count']);
+
+                    $.get('index.php?route=common/cart', function (html) {
+                        $('.block-minicart .dropdown-menu').html(html);
+                    });
+
+                    if (json['enable_order_popup'] != '1')
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 'slow');
+
+                    if (json['enable_order_popup'] == '1') {
+                        $('head').append(
+                            "<style type='text/css'>.customAddtoCart .ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix {display: none;} .customAddtoCart div#add-to-cart-dialog {min-height: 1px !important;} [dir=rtl] .ui-widget {font-family: 'Droid Arabic Kufi', 'droid_serifregular' !important;}</style>"
+                        );
+
+                        $('body').append(
+                            '<div id="add-to-cart-dialog" style="display:none;"><div style="margin: 13px 0;">' +
+                            json['text_cart_dialog'] + '</div></div>');
+
+
+                        $("#add-to-cart-dialog").dialog({
+                            modal: true,
+                            draggable: false,
+                            resizable: false,
+                            position: ['center', 'center'],
+                            show: 'blind',
+                            hide: 'blind',
+                            width: '50%',
+                            left: '25%',
+                            dialogClass: 'ui-dialog-osx customAddtoCart',
+                            buttons: [{
+                                    text: json['text_cart_dialog_continue'],
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    }
+                                },
+                                {
+                                    text: json['text_cart_dialog_cart'],
+                                    click: function () {
+                                        window.location.href = json['cart_link'];
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                }
+            }
+        });
+    });
+</script>

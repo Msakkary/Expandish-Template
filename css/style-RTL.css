@@ -1,0 +1,13 @@
+/******************************************
+	0. Arabic Fonts
+******************************************/
+@import url('https://fonts.googleapis.com/css?family=Cairo:400,600');
+@import url('https://fonts.googleapis.com/css?family=Changa:500,600');
+@import url('https://fonts.googleapis.com/css?family=Lateef');
+@import url('https://fonts.googleapis.com/css?family=Amiri:400,700');
+@import url('https://fonts.googleapis.com/css?family=Scheherazade:400,700');
+
+
+body {
+	font-family: '{{ArabicFonts}}', sans-serif;
+}
